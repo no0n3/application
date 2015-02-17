@@ -11,7 +11,7 @@ public class SubstringAlphabet {
 	}
 
 	public static void main(String[] args) {
-		String targetString = "abcdefghijklmn124345678!@#$%^&*opqrstuvwxyz!*abcdefghijklmn";
+		String targetString = "abcdefghijklmn124345678!@#$%^&*opqrstUVwxyz!*abcdefghijklmn";
 
 		System.out
 				.println(smallestSubstringContainingTheAlphabet(targetString));
@@ -22,7 +22,8 @@ public class SubstringAlphabet {
 		if (null == str) {
 			return null;
 		}
-		if (containsInvalidASCIICharsOrWhitespaces(str) || str.length() < alphabet.length) {
+		if (containsInvalidASCIICharsOrWhitespaces(str)
+				|| str.length() < alphabet.length) {
 			return str;
 		}
 
@@ -43,24 +44,24 @@ public class SubstringAlphabet {
 		int foundC = 0;
 
 		for (int beg = 0, end = 0; end < str.length(); end++) {
-
-			if (!needToFind.contains(targetStr[end])) {
+			char tce = (char) (targetStr[end] | 32);
+			if (!needToFind.contains(tce)) {
 				continue;
 			}
 
-			int c = g(hasFound.get(targetStr[end]));
+			int c = g(hasFound.get(tce));
 			if (0 == c) {
 				foundC++;
 			}
-			hasFound.put(targetStr[end], c + 1);
+			hasFound.put(tce, c + 1);
 
 			if (foundC == alphabet.length) {
 				while (true) {
-					if (!needToFind.contains(targetStr[beg])) {
+					char tcb = (char) (targetStr[beg] | 32);
+					if (!needToFind.contains(tcb)) {
 						beg++;
-					} else if (g(hasFound.get(targetStr[beg])) > 1) {
-						hasFound.put(targetStr[beg],
-								decr(hasFound.get(targetStr[beg])));
+					} else if (g(hasFound.get(tcb)) > 1) {
+						hasFound.put(tcb, decr(hasFound.get(tcb)));
 						beg++;
 					} else {
 						break;
